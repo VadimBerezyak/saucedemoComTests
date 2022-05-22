@@ -1,6 +1,7 @@
 package ui.tests;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +16,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 
-
-
 public class BaseTest {
     private final Users emptyDataUser = new Users("", "");
     private final Users validUser = new Users("standard_user", "secret_sauce");
@@ -26,6 +25,8 @@ public class BaseTest {
     @BeforeEach
     public  void setup(){
         open("https://www.saucedemo.com");
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
     }
 
     @Test
