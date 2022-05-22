@@ -1,6 +1,7 @@
 package ui.tests;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,8 @@ public class BaseTest {
     @BeforeEach
     public  void setup(){
         open("https://www.saucedemo.com");
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
     }
 
     @Test
