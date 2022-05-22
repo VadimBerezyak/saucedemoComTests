@@ -20,4 +20,7 @@ public class ProductPage {
     public void removerProduct() {
         removeButton.click();
     }
+    public void goToCartPage() {
+        cartButton.click();
+    }
 }
