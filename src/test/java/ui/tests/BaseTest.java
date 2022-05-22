@@ -10,7 +10,6 @@ import pages.cart.CartPage;
 import pages.login.LoginPage;
 import pages.login.Users;
 import pages.products.ProductPage;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
