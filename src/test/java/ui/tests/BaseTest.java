@@ -62,7 +62,7 @@ public class BaseTest {
         productPage.indicatorAddToCart.shouldHave(text("1"));
         productPage.removeButton.shouldBe(exist);
     }
-
+//TODO: String variable - product name droped to the cart
     @Test
     void removeButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
