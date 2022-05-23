@@ -16,8 +16,10 @@ public class ProductPage {
     public final SelenideElement removeButton = $x("//button[@data-test = 'remove-sauce-labs-backpack']");
     public void addToCar() {
         backPackAddToCartButton.click();
+       // String product =
     }
     public void removerProduct() {
+
         removeButton.click();
     }
     public void goToCartPage() {
