@@ -14,9 +14,9 @@ public class LoginPage {
     public final SelenideElement errorButtonClose = $x("//button[@class = 'error-button']");
     public final SelenideElement errorMessageContainer = $x("//div[@class = 'error-message-container error']");
 
-    public void loginUser(Users user){
-        inputUserName.setValue(user.getLogin());
-        inputUserPassword.setValue(user.getPassword());
+    public void loginUser(String login, String password){
+        inputUserName.setValue(login);
+        inputUserPassword.setValue(password);
         loginButton.click();
     }
 
