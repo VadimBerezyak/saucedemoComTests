@@ -7,6 +7,8 @@ import pages.cart.CartPage;
 import pages.login.LoginPage;
 import pages.products.ProductPage;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -32,20 +34,32 @@ public class BaseTest {
         LoginPage page = new LoginPage();
         page.loginUser("", "");
         page.errorMessageContainer.shouldHave(text("Epic sadface: Username is required"));
+        page.errorButtonClose.click();
+        page.errorButtonClose.should(not(exist));
+    }
+
+    @Test
+    void glitchPerfomanceLoginTest() {
+        LoginPage page = new LoginPage();
+        page.loginUser("performance_glitch_user", "secret_sauce");
+        page.errorMessageContainer.shouldNot(exist);
+        productPage.pageTitle.should(exist);
     }
 
     @Test
     void successLoginTest() {
-        //       LoginPage page = new LoginPage();
         page.loginUser("standard_user", "secret_sauce");
         ProductPage productPage = new ProductPage();
         productPage.pageTitle.shouldHave(text("PRODUCTS"));
+
     }
 
     @Test
     void lockedLoginTest() {
         page.loginUser("locked_out_user", "secret_sauce");
         page.errorMessageContainer.shouldHave(text("Epic sadface: Sorry, this user has been locked out."));
+        page.errorButtonClose.click();
+        page.errorButtonClose.should(not(exist));
     }
 
     @Test
