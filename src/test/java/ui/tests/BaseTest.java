@@ -7,8 +7,6 @@ import pages.cart.CartPage;
 import pages.login.LoginPage;
 import pages.products.ProductPage;
 
-import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -88,14 +86,19 @@ public class BaseTest {
 
     @Test
     void checkProductAddedToCartTest() {
+
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
         cartPage.productInCart.shouldBe(exist);
+        cartPage.productInCart.getText().equals(productPage.productPageTitle.getText());
         cartPage.productInCart.shouldBe(visible);
         cartPage.removeButtonInCart.shouldBe(exist);
         cartPage.productInCartQuantity.shouldHave(text("1"));
+        String s = productPage.productPagePrice.innerText();
+        String x = cartPage.cartPagePrice.innerText();
+        productPage.productPagePrice.innerText().equals(cartPage.cartPagePrice.innerText());
     }
 
     @Test
@@ -104,9 +107,12 @@ public class BaseTest {
         productPage.addToCar();
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
+        String s = cartPage.removeButtonInCart.innerText();
+        cartPage.removeButtonInCart.shouldHave(attribute("id"));
         cartPage.removeFromCart();
         cartPage.removeButtonInCart.shouldBe(not(exist));
         cartPage.productInCart.shouldBe(not(exist));
+
 
     }
 
