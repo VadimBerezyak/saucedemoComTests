@@ -96,8 +96,8 @@ public class BaseTest {
         cartPage.productInCart.shouldBe(visible);
         cartPage.removeButtonInCart.shouldBe(exist);
         cartPage.productInCartQuantity.shouldHave(text("1"));
-        String s = productPage.productPagePrice.innerText();
-        String x = cartPage.cartPagePrice.innerText();
+//        String s = productPage.productPagePrice.innerText();
+//        String x = cartPage.cartPagePrice.innerText();
         productPage.productPagePrice.innerText().equals(cartPage.cartPagePrice.innerText());
     }
 
