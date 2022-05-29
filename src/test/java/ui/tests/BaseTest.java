@@ -1,6 +1,7 @@
 package ui.tests;
 
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pages.cart.CartPage;
@@ -28,6 +29,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void emptyFieldsLoginTest() {
         LoginPage page = new LoginPage();
         page.loginUser("", "");
@@ -37,6 +39,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void glitchPerfomanceLoginTest() {
         LoginPage page = new LoginPage();
         page.loginUser("performance_glitch_user", "secret_sauce");
@@ -45,6 +48,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void successLoginTest() {
         page.loginUser("standard_user", "secret_sauce");
         ProductPage productPage = new ProductPage();
@@ -53,6 +57,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void lockedLoginTest() {
         page.loginUser("locked_out_user", "secret_sauce");
         page.errorMessageContainer.shouldHave(text("Epic sadface: Sorry, this user has been locked out."));
@@ -61,6 +66,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void problemLoginTest() {
         page.loginUser("problem_user", "secret_sauce");
         ProductPage productPage = new ProductPage();
@@ -68,14 +74,16 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void addToCartButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
         productPage.indicatorAddToCart.shouldHave(text("1"));
         productPage.removeButton.shouldBe(exist);
     }
-//TODO: String variable - product name droped to the cart
+
     @Test
+    @Owner("Vadim Berezyak")
     void removeButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
@@ -85,6 +93,7 @@ public class BaseTest {
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void checkProductAddedToCartTest() {
 
         page.loginUser("standard_user", "secret_sauce");
@@ -96,12 +105,11 @@ public class BaseTest {
         cartPage.productInCart.shouldBe(visible);
         cartPage.removeButtonInCart.shouldBe(exist);
         cartPage.productInCartQuantity.shouldHave(text("1"));
-//        String s = productPage.productPagePrice.innerText();
-//        String x = cartPage.cartPagePrice.innerText();
         productPage.productPagePrice.innerText().equals(cartPage.cartPagePrice.innerText());
     }
 
     @Test
+    @Owner("Vadim Berezyak")
     void removeButtonInCartTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
