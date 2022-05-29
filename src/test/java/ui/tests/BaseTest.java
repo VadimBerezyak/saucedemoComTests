@@ -1,6 +1,7 @@
 package ui.tests;
 
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Validation of empty fields when logging")
     void emptyFieldsLoginTest() {
         LoginPage page = new LoginPage();
         page.loginUser("", "");
@@ -40,6 +42,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Validation of delay's possibility when logging")
     void glitchPerfomanceLoginTest() {
         LoginPage page = new LoginPage();
         page.loginUser("performance_glitch_user", "secret_sauce");
@@ -49,6 +52,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Validation of successfully login")
     void successLoginTest() {
         page.loginUser("standard_user", "secret_sauce");
         ProductPage productPage = new ProductPage();
@@ -58,6 +62,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Validation of locked user login")
     void lockedLoginTest() {
         page.loginUser("locked_out_user", "secret_sauce");
         page.errorMessageContainer.shouldHave(text("Epic sadface: Sorry, this user has been locked out."));
@@ -67,6 +72,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Validation of problem user login")
     void problemLoginTest() {
         page.loginUser("problem_user", "secret_sauce");
         ProductPage productPage = new ProductPage();
@@ -75,6 +81,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Checking of 'Add to cart' button's functionality ")
     void addToCartButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
@@ -84,6 +91,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Checking of 'Remove from cart' button's functionality ")
     void removeButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
@@ -94,8 +102,8 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Checking that the product in cart is the same that was chosen by user")
     void checkProductAddedToCartTest() {
-
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
         productPage.goToCartPage();
@@ -110,6 +118,7 @@ public class BaseTest {
 
     @Test
     @Owner("Vadim Berezyak")
+    @Description("Checking of 'remove from cart' button's on art page functionality ")
     void removeButtonInCartTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
