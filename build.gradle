@@ -20,6 +20,7 @@ dependencies {
     testImplementation 'io.qameta.allure:allure-java-commons:2.12.1'
     testImplementation 'io.qameta.allure:allure-assertj:2.12.1'
     testImplementation 'io.qameta.allure:allure-java-commons:2.12.1'
+    testImplementation 'io.qameta.allure:allure-selenide:2.12.1'
     testImplementation 'org.aspectj:aspectjweaver:1.9.5'
 
 
