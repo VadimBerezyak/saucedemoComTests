@@ -4,6 +4,8 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,9 @@ import pages.products.ProductPage;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
-
+import static io.qameta.allure.Allure.step;
+@Owner("Vadim Berezyak")
+@Severity(value = SeverityLevel.CRITICAL)
 public class BaseTest {
 
     private LoginPage page;
@@ -32,63 +36,80 @@ public class BaseTest {
     }
 
     @Test
-    @Owner("Vadim Berezyak")
     @Description("Validation of empty fields when logging")
     void emptyFieldsLoginTest() {
-        LoginPage page = new LoginPage();
         page.loginUser("", "");
-        page.errorMessageContainer.shouldHave(text("Epic sadface: Username is required"));
-        page.errorButtonClose.click();
-        page.errorButtonClose.should(not(exist));
+        step("Checking of validation message", () ->{
+            page.errorMessageContainer.shouldHave(text("Epic sadface: Username is required"));
+        });
+        step("Close error message", () ->{
+            page.errorButtonClose.click();
+        });
+
+        step("Check if error message was closed", () ->{
+            page.errorButtonClose.should(not(exist));
+        });
+
     }
 
     @Test
-    @Owner("Vadim Berezyak")
     @Description("Validation of delay's possibility when logging")
     void glitchPerfomanceLoginTest() {
-        LoginPage page = new LoginPage();
         page.loginUser("performance_glitch_user", "secret_sauce");
-        page.errorMessageContainer.shouldNot(exist);
-        productPage.pageTitle.should(exist);
+        step("Check that there is no error message during authorisation", () ->{
+            page.errorMessageContainer.shouldNot(exist);
+        });
+        step("Check that user moved to the product page", () ->{
+            productPage.pageTitle.should(exist);
+        });
     }
 
     @Test
-    @Owner("Vadim Berezyak")
     @Description("Validation of successfully login")
     void successLoginTest() {
         page.loginUser("standard_user", "secret_sauce");
-        ProductPage productPage = new ProductPage();
-        productPage.pageTitle.shouldHave(text("PRODUCTS"));
+        step("Check that page has name PRODUCTS", () ->{
+            productPage.pageTitle.shouldHave(text("PRODUCTS"));
+        });
 
     }
 
     @Test
-    @Owner("Vadim Berezyak")
     @Description("Validation of locked user login")
     void lockedLoginTest() {
         page.loginUser("locked_out_user", "secret_sauce");
-        page.errorMessageContainer.shouldHave(text("Epic sadface: Sorry, this user has been locked out."));
-        page.errorButtonClose.click();
-        page.errorButtonClose.should(not(exist));
+        step("Check that user got error message", () ->{
+            page.errorMessageContainer.shouldHave(text("Epic sadface: Sorry, this user has been locked out."));
+        });
+        step("Press X button to close error-message", () ->{
+            page.errorButtonClose.click();
+        });
+        step("Check that error-message button disappeared", () ->{
+            page.errorMessageContainer.shouldNot(exist);
+            page.errorButtonClose.should(not(exist));
+        });
     }
 
     @Test
-    @Owner("Vadim Berezyak")
     @Description("Validation of problem user login")
     void problemLoginTest() {
         page.loginUser("problem_user", "secret_sauce");
-        ProductPage productPage = new ProductPage();
-        productPage.problemPicture.shouldHave(attribute("src", "https://www.saucedemo.com/static/media/sl-404.168b1cce.jpg"));
+        step("Check tht there is problem-user's picture on product page", () ->{
+            productPage.problemPicture.shouldHave(attribute("src", "https://www.saucedemo.com/static/media/sl-404.168b1cce.jpg"));
+        });
     }
 
     @Test
-    @Owner("Vadim Berezyak")
-    @Description("Checking of 'Add to cart' button's functionality ")
+    @Description("Checking of cart indicator  by 'Add to cart' button click ")
     void addToCartButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
-        productPage.indicatorAddToCart.shouldHave(text("1"));
-        productPage.removeButton.shouldBe(exist);
+        step("Check that indicator is working", () ->{
+            productPage.indicatorAddToCart.shouldHave(text("1"));
+        });
+        step("Check that remove-button appeared on page", () ->{
+            productPage.removeButton.shouldBe(exist);
+        });
     }
 
     @Test
@@ -97,8 +118,12 @@ public class BaseTest {
     void removeButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
-        productPage.removeButton.click();
-        productPage.removeButton.shouldBe(not(exist));
+        step("Click remove button on product page", () ->{
+            productPage.removeButton.click();
+        });
+        step("Check that remove button disappeared", () ->{
+            productPage.removeButton.shouldBe(not(exist));
+        });
 
     }
 
@@ -110,29 +135,40 @@ public class BaseTest {
         productPage.addToCar();
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
-        cartPage.productInCart.shouldBe(exist);
-        cartPage.productInCart.getText().equals(productPage.productPageTitle.getText());
-        cartPage.productInCart.shouldBe(visible);
-        cartPage.removeButtonInCart.shouldBe(exist);
-        cartPage.productInCartQuantity.shouldHave(text("1"));
-        productPage.productPagePrice.innerText().equals(cartPage.cartPagePrice.innerText());
+        step("Check that cart contains product", () ->{
+            cartPage.productInCart.shouldBe(exist);
+        });
+        step("Check that name of product in cart is same that was added by user", () ->{
+            cartPage.productInCart.getText().equals(productPage.productPageTitle.getText());
+        });
+        step("Check that name of product in cart is visible", () ->{
+            cartPage.productInCart.shouldBe(visible);
+        });
+        step("Check that remove-button exist on cart page", () ->{
+            cartPage.removeButtonInCart.shouldBe(exist);
+        });
+        step("Check that user added only one product", () ->{
+            cartPage.productInCartQuantity.shouldHave(text("1"));
+        });
+        step("Check that price of product in cart is the same", () ->{
+            productPage.productPagePrice.innerText().equals(cartPage.cartPagePrice.innerText());
+        });
     }
 
     @Test
-    @Owner("Vadim Berezyak")
-    @Description("Checking of 'remove from cart' button's on art page functionality ")
+    @Description("Checking of 'remove from cart' button's on cart page functionality ")
     void removeButtonInCartTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCar();
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
-        String s = cartPage.removeButtonInCart.innerText();
-        cartPage.removeButtonInCart.shouldHave(attribute("id"));
         cartPage.removeFromCart();
-        cartPage.removeButtonInCart.shouldBe(not(exist));
-        cartPage.productInCart.shouldBe(not(exist));
-
-
+        step("Check that product was removed from cart", () ->{
+            cartPage.productInCart.shouldBe(not(exist));
+        });
+        step("Check remove-button disappeared", () ->{
+            cartPage.removeButtonInCart.shouldBe(not(exist));
+        });
     }
 
 

@@ -1,6 +1,7 @@
 package pages.login;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -14,6 +15,7 @@ public class LoginPage {
     public final SelenideElement errorButtonClose = $x("//button[@class = 'error-button']");
     public final SelenideElement errorMessageContainer = $x("//div[@class = 'error-message-container error']");
 
+    @Step("Set user data and click login button")
     public void loginUser(String login, String password){
         inputUserName.setValue(login);
         inputUserPassword.setValue(password);
