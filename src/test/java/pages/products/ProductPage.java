@@ -1,9 +1,7 @@
 package pages.products;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
-import java.util.ArrayList;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -14,14 +12,20 @@ public class ProductPage {
     public final SelenideElement backPackAddToCartButton = $x("//button[@name = 'add-to-cart-sauce-labs-backpack']");
     public final SelenideElement indicatorAddToCart = $x("//a[@class = 'shopping_cart_link']//span[@class = 'shopping_cart_badge']");
     public final SelenideElement removeButton = $x("//button[@data-test = 'remove-sauce-labs-backpack']");
+    public final SelenideElement productPageTitle = $x("//div[@class='inventory_item_name']");
+    public final SelenideElement productPagePrice = $x("//div[@class='inventory_item_price']");
+    @Step("Add product in the cart")
     public void addToCar() {
         backPackAddToCartButton.click();
-       // String product =
     }
+
+    @Step("Remove product from the cart")
     public void removerProduct() {
 
         removeButton.click();
     }
+
+    @Step("Go to the cart page")
     public void goToCartPage() {
         cartButton.click();
     }
