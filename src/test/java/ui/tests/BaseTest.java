@@ -23,7 +23,7 @@ public class BaseTest {
 
     private LoginPage page;
     private ProductPage productPage;
-
+    int index = (int) Math.abs((Math.random()*10 - 4));
 
     @BeforeEach
 
@@ -104,12 +104,12 @@ public class BaseTest {
     @Description("Checking of cart indicator  by 'Add to cart' button click ")
     void addToCartButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
-        productPage.addToCar();
+        productPage.addToCartByIndex(index);
         step("Check that indicator is working", () -> {
             productPage.indicatorAddToCart.shouldHave(text("1"));
         });
         step("Check that remove-button appeared on page", () -> {
-            productPage.removeButton.shouldBe(exist);
+            productPage.getRemoveButtonByIndex(index).shouldBe(exist);
         });
     }
 
@@ -118,12 +118,12 @@ public class BaseTest {
     @Description("Checking of 'Remove from cart' button's functionality ")
     void removeButtonTest() {
         page.loginUser("standard_user", "secret_sauce");
-        productPage.addToCar();
+        productPage.addToCartByIndex(index);
         step("Click remove button on product page", () -> {
-            productPage.removeButton.click();
+            productPage.getRemoveButtonByIndex(index).click();
         });
         step("Check that remove button disappeared", () -> {
-            productPage.removeButton.shouldBe(not(exist));
+            productPage.getRemoveButtonByIndex(index).shouldBe(not(exist));
         });
 
     }
@@ -133,7 +133,7 @@ public class BaseTest {
     @Description("Checking that the product in cart is the same that was chosen by user")
     void checkProductAddedToCartTest() {
         page.loginUser("standard_user", "secret_sauce");
-        productPage.addToCar();
+        productPage.addToCartByIndex(index);
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
         step("Check that cart contains product", () -> {
@@ -160,7 +160,7 @@ public class BaseTest {
     @Description("Checking of 'remove from cart' button's on cart page functionality ")
     void removeButtonInCartTest() {
         page.loginUser("standard_user", "secret_sauce");
-        productPage.addToCar();
+        productPage.addToCartByIndex(index);
         productPage.goToCartPage();
         CartPage cartPage = new CartPage();
         cartPage.removeFromCart();
