@@ -16,6 +16,7 @@ import pages.products.ProductPage;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Owner("Vadim Berezyak")
 @Severity(value = SeverityLevel.CRITICAL)
@@ -23,7 +24,8 @@ public class BaseTest {
 
     private LoginPage page;
     private ProductPage productPage;
-    int index = (int) Math.abs((Math.random()*10 - 4));
+    private CartPage cartPage;
+    int index = (int) Math.abs((Math.random() * 10 - 4));
 
     @BeforeEach
 
@@ -34,6 +36,7 @@ public class BaseTest {
         Selenide.clearBrowserLocalStorage();
         page = new LoginPage();
         productPage = new ProductPage();
+        cartPage = new CartPage();
     }
 
     @Test
@@ -111,6 +114,13 @@ public class BaseTest {
         step("Check that remove-button appeared on page", () -> {
             productPage.getRemoveButtonByIndex(index).shouldBe(exist);
         });
+        String item = productPage.getProductNameInCartByIndex(index);
+
+        productPage.cartButton.click();
+
+        String inCartItem = cartPage.productInCart.getText();
+        assertThat(inCartItem).isEqualTo(item);
+
     }
 
     @Test
