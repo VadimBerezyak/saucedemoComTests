@@ -104,8 +104,8 @@ public class BaseTest {
     }
 
     @Test
-    @Description("Checking of cart indicator  by 'Add to cart' button click ")
-    void addToCartButtonTest() {
+    @Description("Checking the fact that product may be correctly added to the cart: assert names and prices values")
+    void checkCorrectAddedProductInCartTest() {
         page.loginUser("standard_user", "secret_sauce");
         productPage.addToCartByIndex(index);
         step("Check that indicator is working", () -> {
@@ -115,11 +115,12 @@ public class BaseTest {
             productPage.getRemoveButtonByIndex(index).shouldBe(exist);
         });
         String item = productPage.getProductNameInCartByIndex(index);
-
-        productPage.cartButton.click();
-
+        productPage.goToCartPage();
         String inCartItem = cartPage.productInCart.getText();
-        assertThat(inCartItem).isEqualTo(item);
+        step("Get product name on the cart page", () -> {
+            assertThat(inCartItem).isEqualTo(item);
+        });
+
 
     }
 
