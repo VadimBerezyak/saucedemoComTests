@@ -1,37 +1,16 @@
 package ui.tests;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Description;
-import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pages.cart.CartPage;
-import pages.login.LoginPage;
-import pages.products.ProductPage;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
-public class LoginTests {
-    private LoginPage page;
-    private ProductPage productPage;
-    private CartPage cartPage;
-
-    @BeforeEach
-
-    public void setup() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        open("https://www.saucedemo.com");
-        Selenide.clearBrowserCookies();
-        Selenide.clearBrowserLocalStorage();
-        page = new LoginPage();
-        productPage = new ProductPage();
-        cartPage = new CartPage();
-    }
+public class LoginTests extends BaseTest {
 
     @Test
+    @DisplayName("Validation of empty fields when logging")
     @Description("Validation of empty fields when logging")
     void emptyFieldsLoginTest() {
         page.loginUser("", "");
@@ -49,6 +28,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Validation of delay's possibility when logging")
     @Description("Validation of delay's possibility when logging")
     void glitchPerfomanceLoginTest() {
         page.loginUser("performance_glitch_user", "secret_sauce");
@@ -61,6 +41,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Validation of successfully login")
     @Description("Validation of successfully login")
     void successLoginTest() {
         page.loginUser("standard_user", "secret_sauce");
@@ -71,6 +52,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Validation of locked user login")
     @Description("Validation of locked user login")
     void lockedLoginTest() {
         page.loginUser("locked_out_user", "secret_sauce");
@@ -87,6 +69,7 @@ public class LoginTests {
     }
 
     @Test
+    @DisplayName("Validation of problem user login")
     @Description("Validation of problem user login")
     void problemLoginTest() {
         page.loginUser("problem_user", "secret_sauce");
