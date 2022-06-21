@@ -114,11 +114,14 @@ public class BaseTest {
         step("Check that remove-button appeared on page", () -> {
             productPage.getRemoveButtonByIndex(index).shouldBe(exist);
         });
-        String item = productPage.getProductNameInCartByIndex(index);
+        String item = productPage.getProductNameInCatalogByIndex(index);
+        String itemPrice = productPage.getProductPriceInCatalogByIndex(index);
         productPage.goToCartPage();
-        String inCartItem = cartPage.productInCart.getText();
-        step("Get product name on the cart page", () -> {
+        String inCartItem = cartPage.productInCart.getText ();
+        String inCartItemPrice = cartPage.cartPagePrice.getText();
+        step("Name and price of product in cart are correct", () -> {
             assertThat(inCartItem).isEqualTo(item);
+            assertThat(inCartItemPrice).isEqualTo(itemPrice);
         });
 
 

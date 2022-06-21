@@ -22,9 +22,14 @@ public class ProductPage {
         (productsInCatalog.get(index)).$x(".//button[@class='btn btn_primary btn_small btn_inventory']").click();
     }
 
-    @Step("Get name of the product in cart by index")
-    public String getProductNameInCartByIndex (int index){
+    @Step("Get name of the product in catalog by index")
+    public String getProductNameInCatalogByIndex(int index){
         return productsInCatalog.get(index).$x(".//div[@class='inventory_item_name']").getText();
+    }
+
+    @Step("Get price of the product in catalog by index")
+    public String getProductPriceInCatalogByIndex (int index){
+        return productsInCatalog.get(index).$x(".//div[@class='inventory_item_price']").getText();
     }
 
     @Step("Remove product from the cart")
