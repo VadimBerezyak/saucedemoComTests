@@ -26,4 +26,5 @@ public class BaseTest {
         productPage = new ProductPage();
         cartPage = new CartPage();
     }
+
 }
